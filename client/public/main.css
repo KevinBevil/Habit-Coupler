@@ -1,0 +1,50 @@
+.btn {
+   background-color: #FEF596;
+   color: #3F362A;
+}
+
+.btn:hover {
+   background-color: #FBDE03;
+}
+
+.bg-primary {
+   background-color: #3F362A !important;
+}
+
+h1 {
+   font-family: 'Darker Grotesque', sans-serif;
+   color: #FEF596;
+   text-shadow: 2px 2px 2px #3F362A;
+}
+
+h2 {
+   font-family: 'Darker Grotesque', sans-serif;
+   color: #FEF596;
+   font-size: 25px;
+   text-shadow: 1px 1px 1px #3F362A;
+}
+
+#jumbo-lib {
+   background-image: url("./images/bookshelf.jpg");
+}
+
+h6 {
+   font-size: 15px;
+   display: block;
+   float: left!important;
+   display: block;
+   margin-right: 50%;
+
+}
+
+#search-button {
+   margin-right: 100%;
+
+}
+
+.btn {
+   float: left;
+   float: left!important;
+   display: block;
+   padding-right: 90%;
+}
