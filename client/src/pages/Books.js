@@ -50,15 +50,7 @@ class Books extends Component {
     });
   };
 
-  handleSearch = event => {
-    event.preventDefault();
-    API.searchBook(this.state.title)
-      .then(res => {
-        this.setState({ bookResults: res });
-        // console.log(this.state.bookResults);
-      })
-      .catch(err => console.log(err));
-  };
+
 
   handleFormSubmit = event => {
     event.preventDefault();
@@ -77,35 +69,12 @@ class Books extends Component {
     return (
       <Container fluid>
         <Row>
-          <Col size="md-6">
-            <Jumbotron>
-              <h1>Book Search</h1>
-            </Jumbotron>
-            <form>
-              <Input
-                value={this.state.title}
-                onChange={this.handleInputChange}
-                name="title"
-                placeholder="Title"
-              />
-              <SearchBtn id="search-button"onClick={this.handleSearch}>Search</SearchBtn>
+          <Col size="md-12">
 
-              {this.state.bookResults.data ? (
-                this.state.bookResults.data.items.map(thing => (
-                  <resItem>
-                    <h6>{thing.volumeInfo.title} by {thing.volumeInfo.authors}</h6>
-                    <FormBtn onClick={this.handleFormSubmit}>Save Book</FormBtn>
-                  </resItem>
-                ))
-              ) : (
-                <h6>Search results will go here..</h6>
-              )}
-
-            </form>
           </Col>
-          <Col size="md-6 sm-12">
+          <Col size="md-12 sm-12">
             <Jumbotron>
-              <h1>Saved Books</h1>
+              <h1>My Coupled Habits</h1>
             </Jumbotron>
             {this.state.books.length ? (
               <List>
