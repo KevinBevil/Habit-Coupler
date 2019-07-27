@@ -7,26 +7,26 @@ import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem, resItem } from "../components/List";
 import { Input, TextArea, FormBtn, SearchBtn } from "../components/Form";
 
-class Books extends Component {
+class MyHabits extends Component {
   state = {
-    books: [],
+    users: [],
     title: "",
     authors: "",
     description: "",
     image: "",
     link: "",
-    bookResults: []
+    userResults: []
   };
 
   componentDidMount() {
-    this.loadBooks();
+    this.loadUsers();
   }
 
-  loadBooks = () => {
-    API.getBooks()
+  loadUsers = () => {
+    API.getUsers()
       .then(res =>
         this.setState({
-          books: res.data,
+          users: res.data,
           title: "",
           authors: "",
           description: "",
@@ -37,9 +37,9 @@ class Books extends Component {
       .catch(err => console.log(err));
   };
 
-  deleteBook = id => {
-    API.deleteBook(id)
-      .then(res => this.loadBooks())
+  deleteUser = id => {
+    API.deleteUser(id)
+      .then(res => this.loadUsers())
       .catch(err => console.log(err));
   };
 
@@ -55,12 +55,12 @@ class Books extends Component {
   handleFormSubmit = event => {
     event.preventDefault();
     if (this.state.title && this.state.authors) {
-      API.saveBook({
+      API.saveUser({
         title: this.state.title,
         authors: this.state.authors,
         description: this.state.description
       })
-        .then(res => this.loadBooks())
+        .then(res => this.loadUsers())
         .catch(err => console.log(err));
     }
   };
@@ -76,16 +76,16 @@ class Books extends Component {
             <Jumbotron>
               <h1>My Coupled Habits</h1>
             </Jumbotron>
-            {this.state.books.length ? (
+            {this.state.users.length ? (
               <List>
-                {this.state.books.map(book => (
-                  <ListItem key={book._id}>
-                    <Link to={"/books/" + book._id}>
+                {this.state.users.map(user => (
+                  <ListItem key={user._id}>
+                    <Link to={"/user/" + user._id}>
                       <strong>
-                        {book.title} by {book.authors}
+                        {user.title} by {user.authors}
                       </strong>
                     </Link>
-                    <DeleteBtn onClick={() => this.deleteBook(book._id)} />
+                    <DeleteBtn onClick={() => this.deleteUser(user._id)} />
                   </ListItem>
                 ))}
               </List>
@@ -99,4 +99,4 @@ class Books extends Component {
   }
 }
 
-export default Books;
+export default MyHabits;
