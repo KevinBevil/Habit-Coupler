@@ -2,6 +2,7 @@ import React from "react";
 import LoginButton from "../LoginButton";
 import LogoutButton from "../LogoutButton";
 import Greeting from "../Greeting";
+import Firebase from "firebase";
 
 
 class LoginControl extends React.Component {
@@ -32,8 +33,16 @@ class LoginControl extends React.Component {
 
     return (
       <div>
+
         <Greeting isLoggedIn={isLoggedIn} />
         {button}
+
+        {
+          (!this.state.isLoggedIn)
+            ?  <div><input id="username-input" value="username"></input><input id="password-input" value="password"></input></div>
+            :  <div></div>
+        }
+
       </div>
     );
   }
