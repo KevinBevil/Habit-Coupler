@@ -5,7 +5,7 @@ import Detail from "./pages/Detail";
 import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
 import Welcome from "./pages/Welcome";
-import Login from "./pages/Login";
+
 
 
 function App() {
@@ -16,8 +16,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Welcome} />
           <Route exact path="/myhabits" component={MyHabits} />
-          <Route exact path="/myhabits/:id" component={Detail} />
-          <Route exact path="/login" component={Login} />
+          <Route path="/myhabits/:id" component={Detail} />
           <Route component={NoMatch} />
         </Switch>
       </div>
