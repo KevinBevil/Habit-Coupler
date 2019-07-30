@@ -3,7 +3,7 @@ import LoginButton from "../LoginButton";
 import LogoutButton from "../LogoutButton";
 import Greeting from "../Greeting";
 import CreateNewButton from "../CreateNewBtn";
-
+import $ from 'jquery';
 
 import * as firebase from "firebase";
 
@@ -18,27 +18,37 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-var db = firebase.database();
-var auth = firebase.auth();
-
+const db = firebase.database();
+const auth = firebase.auth();
 
 class LoginControl extends React.Component {
+
+  state = {
+    userName: "",
+    password: "",
+    userId: ""
+  }
   constructor(props) {
     super(props);
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleLogoutClick = this.handleLogoutClick.bind(this);
-    this.state = { isLoggedIn: false };
+    this.handleCreateNew = this.handleCreateNew.bind(this);
+    this.state = {
+      isLoggedIn: false
+    };
   }
 
   handleCreateNew() {
-    auth.createUserWithEmailAndPassword('kb@test2.com', 'password')
-      .then(function (data) {
-        db.ref('users').push({
-        })
+    let userName = $("#username-input").val();
+    auth
+      .createUserWithEmailAndPassword("farfegnugen4@test6.com", "password")
+      .then(function(data) {
+        db.ref("users").push({});
       })
-      .catch(function () {
-
-      })
+      .catch(function(err) {
+        alert(err.message);
+      });
+    this.setState({ isLoggedIn: true });
   }
 
   handleLoginClick() {
@@ -51,15 +61,17 @@ class LoginControl extends React.Component {
 
   render() {
     const isLoggedIn = this.state.isLoggedIn;
+    console.log(this.state.userId);
 
     return (
       <div>
         {!isLoggedIn ? (
           <div>
-            <input id="username-input" value="username" />
-            <input id="password-input" value="password" />
+            <input id="username-input" name="email" placeholder="email/username" />
+            <input id="password-input" type="password" name="password" placeholder="password" />
             <LoginButton onClick={this.handleLoginClick} />
             <CreateNewButton onClick={this.handleCreateNew} />
+
           </div>
         ) : (
           <div>
