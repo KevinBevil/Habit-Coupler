@@ -3,7 +3,7 @@ import LoginButton from "../LoginButton";
 import LogoutButton from "../LogoutButton";
 import Greeting from "../Greeting";
 import CreateNewButton from "../CreateNewBtn";
-import $ from 'jquery';
+import $ from "jquery";
 
 import * as firebase from "firebase";
 
@@ -22,12 +22,11 @@ const db = firebase.database();
 const auth = firebase.auth();
 
 class LoginControl extends React.Component {
-
   state = {
     userName: "",
     password: "",
     userId: ""
-  }
+  };
   constructor(props) {
     super(props);
     this.handleLoginClick = this.handleLoginClick.bind(this);
@@ -39,20 +38,42 @@ class LoginControl extends React.Component {
   }
 
   handleCreateNew() {
-    let userName = $("#username-input").val();
     auth
-      .createUserWithEmailAndPassword("farfegnugen4@test6.com", "password")
+      .createUserWithEmailAndPassword(
+        $("#username-input").val(),
+        $("#password-input").val()
+      )
       .then(function(data) {
         db.ref("users").push({});
+        // userId = data.user.uid;
+        alert("Account created.  Please login now.");
       })
       .catch(function(err) {
         alert(err.message);
       });
-    this.setState({ isLoggedIn: true });
+    this.setState({ userId: auth.currentUser.uid });
   }
 
   handleLoginClick() {
-    this.setState({ isLoggedIn: true });
+    auth
+      .signInWithEmailAndPassword(
+        $("#username-input").val(),
+        $("#password-input").val()
+      )
+      .then(() => {
+        this.setState({ isLoggedIn: true });
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        if (errorCode === "auth/wrong-password") {
+          alert("Wrong password.");
+        } else {
+          alert(errorMessage);
+        }
+        console.log(error);
+      });
   }
 
   handleLogoutClick() {
@@ -61,17 +82,28 @@ class LoginControl extends React.Component {
 
   render() {
     const isLoggedIn = this.state.isLoggedIn;
-    console.log(this.state.userId);
 
     return (
       <div>
         {!isLoggedIn ? (
           <div>
-            <input id="username-input" name="email" placeholder="email/username" />
-            <input id="password-input" type="password" name="password" placeholder="password" />
+            <input
+              id="username-input"
+              value={this.state.email}
+              name="email"
+              placeholder="email/username"
+              required
+            />
+            <input
+              id="password-input"
+              value={this.state.password}
+              type="password"
+              name="password"
+              placeholder="password"
+              required
+            />
             <LoginButton onClick={this.handleLoginClick} />
             <CreateNewButton onClick={this.handleCreateNew} />
-
           </div>
         ) : (
           <div>
