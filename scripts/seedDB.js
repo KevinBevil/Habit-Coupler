@@ -46,8 +46,27 @@ const habitSeed = [
   }
 ];
 
+const userSeed = [
+  {
+    username: "Mr Firstman",
+    email: "num1@netscape.net",
+    habits: ["Flossing", "Eating Lunch", "Getting Purse/Wallet", "Preparing Breakfast"]
+  }
+];
+
 db.Habit.remove({})
   .then(() => db.Habit.collection.insert(habitSeed))
+  .then(data => {
+    console.log(data.result.n + " records inserted!");
+    process.exit(0);
+  })
+  .catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
+
+  db.User.remove({})
+  .then(() => db.User.collection.insert(userSeed))
   .then(data => {
     console.log(data.result.n + " records inserted!");
     process.exit(0);
