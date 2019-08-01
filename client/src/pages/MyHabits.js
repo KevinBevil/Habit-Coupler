@@ -9,37 +9,30 @@ import { Input, TextArea, FormBtn, SearchBtn } from "../components/Form";
 
 class MyHabits extends Component {
   state = {
-    users: [],
-    title: "",
-    authors: "",
-    description: "",
-    image: "",
-    link: "",
-    userResults: []
+    username: "",
+    email: "",
+    habits: []
   };
 
-  componentDidMount() {
-    this.loadUsers();
-  }
+  // componentDidMount() {
+  //   this.loadUser();
+  // }
 
-  loadUsers = () => {
-    API.getUsers()
-      .then(res =>
-        this.setState({
-          users: res.data,
-          title: "",
-          authors: "",
-          description: "",
-          image: "",
-          link: ""
-        })
-      )
-      .catch(err => console.log(err));
-  };
+  // loadUser = () => {
+  //   API.getUsers()
+  //     .then(res =>
+  //       this.setState({
+  //         username: res.username,
+  //         email: res.email,
+  //         habits: res.habits
+  //       })
+  //     )
+  //     .catch(err => console.log(err));
+  // };
 
   deleteUser = id => {
     API.deleteUser(id)
-      .then(res => this.loadUsers())
+      .then(res => this.loadUser())
       .catch(err => console.log(err));
   };
 
@@ -60,7 +53,7 @@ class MyHabits extends Component {
         authors: this.state.authors,
         description: this.state.description
       })
-        .then(res => this.loadUsers())
+        .then(res => this.loadUser())
         .catch(err => console.log(err));
     }
   };

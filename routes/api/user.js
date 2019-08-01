@@ -6,9 +6,9 @@ router.route("/")
   .get(userController.findAll)
   .post(userController.create);
 
-// Matches with "/api/user/:id"
+// Matches with "/api/user/:email"
 router
-  .route("/:id")
+  .route("/:email")
   .get(userController.findById)
   .put(userController.update)
   .delete(userController.remove);

@@ -3,7 +3,9 @@ import LoginButton from "../LoginButton";
 import LogoutButton from "../LogoutButton";
 import Greeting from "../Greeting";
 import CreateNewButton from "../CreateNewBtn";
-import $ from "jquery";
+import Jumbotron from "../Jumbotron";
+import API from "../../utils/API";
+
 
 import * as firebase from "firebase";
 
@@ -22,26 +24,54 @@ const db = firebase.database();
 const auth = firebase.auth();
 
 class LoginControl extends React.Component {
-  state = {
-    userName: "",
-    password: "",
-    userId: ""
-  };
+  // state = {
+  //   isLoggedIn: false,
+  //   username: "",
+  //   email: "",
+  //   password: "",
+  //   userId: "", 
+  //   habits: []
+  // };
+
   constructor(props) {
     super(props);
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleLogoutClick = this.handleLogoutClick.bind(this);
     this.handleCreateNew = this.handleCreateNew.bind(this);
     this.state = {
-      isLoggedIn: false
+      isLoggedIn: false,
+      username: "",
+      email: "",
+      password: "",
+      userId: "", 
+      habits: []
     };
   }
+
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+        [name]: value
+    });
+  };
+
+  loadUser = (email) => {
+    API.getUser("num1@netscape.net")
+      .then(res => {
+        console.log(res)
+        this.setState({
+          username: res.data[0].username,
+          habits: res.data[0].habits
+        })
+      })
+      .catch(err => console.log(err));
+  };
 
   handleCreateNew() {
     auth
       .createUserWithEmailAndPassword(
-        $("#username-input").val(),
-        $("#password-input").val()
+        this.state.email,
+        this.state.password
       )
       .then(function(data) {
         db.ref("users").push({});
@@ -57,8 +87,8 @@ class LoginControl extends React.Component {
   handleLoginClick() {
     auth
       .signInWithEmailAndPassword(
-        $("#username-input").val(),
-        $("#password-input").val()
+        this.state.email,
+        this.state.password
       )
       .then(() => {
         this.setState({ isLoggedIn: true });
@@ -80,6 +110,10 @@ class LoginControl extends React.Component {
     this.setState({ isLoggedIn: false });
   }
 
+  componentDidMount() {
+    this.loadUser();
+  }
+
   render() {
     const isLoggedIn = this.state.isLoggedIn;
 
@@ -88,15 +122,19 @@ class LoginControl extends React.Component {
         {!isLoggedIn ? (
           <div>
             <input
+              type="text"
               id="username-input"
               value={this.state.email}
+              onChange={this.handleInputChange}
               name="email"
               placeholder="email/username"
               required
             />
             <input
+              type="text"
               id="password-input"
               value={this.state.password}
+              onChange={this.handleInputChange}
               type="password"
               name="password"
               placeholder="password"
@@ -108,6 +146,7 @@ class LoginControl extends React.Component {
         ) : (
           <div>
             <LogoutButton onClick={this.handleLogoutClick} />
+            <div><h1>Hello {this.state.username}</h1></div>
           </div>
         )}
 
