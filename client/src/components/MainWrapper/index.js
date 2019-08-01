@@ -26,7 +26,6 @@ const auth = firebase.auth();
 class LoginControl extends React.Component {
   // state = {
   //   isLoggedIn: false,
-  //   username: "",
   //   email: "",
   //   password: "",
   //   userId: "", 
@@ -40,11 +39,11 @@ class LoginControl extends React.Component {
     this.handleCreateNew = this.handleCreateNew.bind(this);
     this.state = {
       isLoggedIn: false,
-      username: "",
       email: "",
       password: "",
       userId: "", 
-      habits: []
+      habits: [],
+      user: {}
     };
   }
 
@@ -55,12 +54,12 @@ class LoginControl extends React.Component {
     });
   };
 
-  loadUser = (email) => {
-    API.getUser("num1@netscape.net")
+  loadUser = () => {
+    API.getUser(this.state.email)
       .then(res => {
         console.log(res)
         this.setState({
-          username: res.data[0].username,
+          user: res.data[0],
           habits: res.data[0].habits
         })
       })
@@ -92,6 +91,7 @@ class LoginControl extends React.Component {
       )
       .then(() => {
         this.setState({ isLoggedIn: true });
+        this.loadUser();
       })
       .catch((error) => {
         // Handle Errors here.
@@ -123,7 +123,6 @@ class LoginControl extends React.Component {
           <div>
             <input
               type="text"
-              id="username-input"
               value={this.state.email}
               onChange={this.handleInputChange}
               name="email"
@@ -132,7 +131,6 @@ class LoginControl extends React.Component {
             />
             <input
               type="text"
-              id="password-input"
               value={this.state.password}
               onChange={this.handleInputChange}
               type="password"
@@ -146,7 +144,7 @@ class LoginControl extends React.Component {
         ) : (
           <div>
             <LogoutButton onClick={this.handleLogoutClick} />
-            <div><h1>Hello {this.state.username}</h1></div>
+            <div><h1>Hello {this.state.user.username}</h1></div>
           </div>
         )}
 
