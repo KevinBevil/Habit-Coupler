@@ -31,7 +31,9 @@ class LoginControl extends React.Component {
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleLogoutClick = this.handleLogoutClick.bind(this);
     this.handleCreateNew = this.handleCreateNew.bind(this);
+    this.handleCoupledHabits = this.handleCoupledHabits.bind(this);
     this.handleNewHabit = this.handleNewHabit.bind(this);
+    this.handleChoice = this.handleChoice.bind(this);
     this.state = {
       isLoggedIn: false,
       habit1: "",
@@ -40,7 +42,8 @@ class LoginControl extends React.Component {
       username: "",
       email: "",
       password: "",
-      userId: "",
+      mongoId: "",
+      firebaseId: "",
       allhabits: [],
       user: {}
     };
@@ -71,6 +74,24 @@ class LoginControl extends React.Component {
         })
         .catch(err => console.log(err));
     }
+  };
+
+  handleCoupledHabits = () => {
+    API.updateHabits({
+      _id: this.state.mongoId,
+      data: {
+        habit1: this.state.habit1,
+        habit2: this.state.habit2
+      }
+    })
+    .then(res => {
+      this.loadHabits();
+      this.setState({
+        habit1: "",
+        habit2: ""
+      });
+    })
+    .catch(err => console.log(err));;
   };
 
   handleInputChange = event => {
@@ -117,7 +138,7 @@ class LoginControl extends React.Component {
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(data => {
         db.ref("users").push({});
-        // userId = data.user.uid;
+        // firebaseId = data.user.uid;
         if (this.state.username && this.state.email) {
           API.saveUser({
             username: this.state.username,
@@ -128,7 +149,7 @@ class LoginControl extends React.Component {
             .catch(err => console.log(err));
         }
         alert("Account created.  Please login now.");
-        this.setState({ userId: auth.currentUser.uid });
+        this.setState({ firebaseId: auth.currentUser.uid });
       })
       .catch(function(err) {
         alert(err.message);
@@ -142,7 +163,8 @@ class LoginControl extends React.Component {
         this.setState({ isLoggedIn: true });
         this.loadUser();
         this.loadHabits();
-        this.setState({ userId: auth.currentUser.uid });
+        this.setState({ firebaseId: auth.currentUser.uid });
+        this.setState({ mongoId: this.state.user._id });
       })
       .catch(error => {
         // Handle Errors here.
@@ -181,7 +203,8 @@ class LoginControl extends React.Component {
       isLoggedIn: false,
       email: "",
       password: "",
-      userId: "",
+      firebaseId: "",
+      mongoId: "",
       user: {}
     });
   }
@@ -248,7 +271,7 @@ class LoginControl extends React.Component {
               placeholder="Habit 2"
               required
             />
-            <Habit2 onClick={this.handleCoupleHabits} />
+            <Habit2 onClick={this.handleCoupledHabits} />
             {this.state.user.habits ? (
               <div>
                 <h5>Your Habits:</h5>
