@@ -30,6 +30,7 @@ class LoginControl extends React.Component {
     this.handleCreateNew = this.handleCreateNew.bind(this);
     this.state = {
       isLoggedIn: false,
+      username: "",
       email: "",
       password: "",
       userId: "",
@@ -75,6 +76,15 @@ class LoginControl extends React.Component {
       .then(data => {
         db.ref("users").push({});
         // userId = data.user.uid;
+        if (this.state.username && this.state.email) {
+          API.saveUser({
+            username: this.state.username,
+            email: this.state.email,
+            habits: []
+          })
+            .then(res => this.loadUser())
+            .catch(err => console.log(err));
+        }
         alert("Account created.  Please login now.");
         this.setState({ userId: auth.currentUser.uid });
       })
@@ -135,10 +145,18 @@ class LoginControl extends React.Component {
           <div>
             <input
               type="text"
+              value={this.state.username}
+              onChange={this.handleInputChange}
+              name="username"
+              placeholder="username"
+              required
+            />
+            <input
+              type="text"
               value={this.state.email}
               onChange={this.handleInputChange}
               name="email"
-              placeholder="email/username"
+              placeholder="email"
               required
             />
             <input
