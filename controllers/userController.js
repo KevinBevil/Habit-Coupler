@@ -20,8 +20,8 @@ module.exports = {
   },
   update: function(req, res) {
     db.User.updateOne(
-      { "_id": req.params.id },
-      { $push: { "habits": req.body } })
+      { _id: req.params._id },
+      { $push: { habits: req.body } })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },

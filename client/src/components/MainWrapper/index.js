@@ -35,9 +35,12 @@ class LoginControl extends React.Component {
     this.handleNewHabit = this.handleNewHabit.bind(this);
     this.handleChoice = this.handleChoice.bind(this);
     this.state = {
+      firstBox: false,
       isLoggedIn: false,
-      habit1: "",
-      habit2: "",
+      data: {
+        habit1: "",
+        habit2: ""
+      },
       newHabit: "",
       username: "",
       email: "",
@@ -50,48 +53,52 @@ class LoginControl extends React.Component {
   }
 
   handleChoice = choice => {
-    if (!this.state.habit1) {
+    if (!this.state.firstBox) {
       this.setState({
-        habit1: choice
+        firstBox: true,
+        data: {
+          habit1: choice,
+          habit2: this.state.data.habit2
+        }
       });
-    } else if (this.state.habit1 && !this.state.habit2) {
+    } else if (this.state.firstBox) {
       this.setState({
-        habit2: choice
+        firstBox: false,
+        data: {
+          habit1: this.state.data.habit1,
+          habit2: choice
+        }
       });
     } else {
       return;
     }
-    if (this.state.habit1 && this.state.habit2) {
-      API.deleteHabit({
-        habitname: choice
-      })
-        .then(res => {
-          this.loadHabits();
-          this.setState({
-            habit1: "",
-            habit2: ""
-          });
-        })
-        .catch(err => console.log(err));
-    }
   };
 
-  handleCoupledHabits = () => {
-    API.updateHabits({
-      _id: this.state.mongoId,
-      data: {
-        habit1: this.state.habit1,
-        habit2: this.state.habit2
-      }
-    })
-    .then(res => {
-      this.loadHabits();
-      this.setState({
-        habit1: "",
-        habit2: ""
-      });
-    })
-    .catch(err => console.log(err));;
+  handleCoupledHabits = event => {
+    event.preventDefault();
+    if (this.state.data.habit1 && this.state.data.habit2) {
+      API.updateHabits({
+        _id: this.state.mongoId,
+        data: this.state.data
+      })
+        .then(res => this.loadUser())
+        .catch(err => console.log(err));
+    }
+    // API.updateHabits({
+    //   _id: this.state.mongoId,
+    //   data: {
+    //     habit1: this.state.habit1,
+    //     habit2: this.state.habit2
+    //   }
+    // })
+    // .then(res => {
+    //   this.loadHabits();
+    //   this.setState({
+    //     habit1: "",
+    //     habit2: ""
+    //   });
+    // })
+    // .catch(err => console.log(err));
   };
 
   handleInputChange = event => {
@@ -205,6 +212,7 @@ class LoginControl extends React.Component {
       password: "",
       firebaseId: "",
       mongoId: "",
+      username: "",
       user: {}
     });
   }
@@ -257,7 +265,7 @@ class LoginControl extends React.Component {
             <Greeting isLoggedIn={isLoggedIn} />
             <input
               type="text"
-              value={this.state.habit1}
+              value={this.state.data.habit1}
               onChange={this.handleInputChange}
               name="habit1"
               placeholder="Habit 1"
@@ -265,14 +273,14 @@ class LoginControl extends React.Component {
             />
             <input
               type="text"
-              value={this.state.habit2}
+              value={this.state.data.habit2}
               onChange={this.handleInputChange}
               name="habit2"
               placeholder="Habit 2"
               required
             />
             <Habit2 onClick={this.handleCoupledHabits} />
-            {this.state.user.habits ? (
+            {this.state.user.habits.length ? (
               <div>
                 <h5>Your Habits:</h5>
                 {this.state.user.habits.map(element => (

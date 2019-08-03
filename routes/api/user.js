@@ -13,8 +13,9 @@ router
   .put(userController.update)
   .delete(userController.remove);
 
+  // Matches with "/api/user/habits/:id"
 router
-  .route("/:id")
+  .route("/habits/:id")
   .put(userController.update)  
 
 module.exports = router;
