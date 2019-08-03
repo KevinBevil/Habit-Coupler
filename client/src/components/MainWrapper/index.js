@@ -3,6 +3,7 @@ import LoginButton from "../LoginButton";
 import LogoutButton from "../LogoutButton";
 import Greeting from "../Greeting";
 import CreateNewButton from "../CreateNewBtn";
+import NewHabitBtn from "../NewHabitBtn";
 import { List, ListItem, resItem } from "../List";
 import DeleteBtn from "../DeleteBtn";
 import API from "../../utils/API";
@@ -29,6 +30,7 @@ class LoginControl extends React.Component {
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleLogoutClick = this.handleLogoutClick.bind(this);
     this.handleCreateNew = this.handleCreateNew.bind(this);
+    this.handleNewHabit = this.handleNewHabit.bind(this);
     this.state = {
       isLoggedIn: false,
       newHabit: "",
@@ -125,11 +127,23 @@ class LoginControl extends React.Component {
       });
   }
 
+  handleNewHabit() {
+
+    API.saveHabit({
+      habitname: this.state.newHabit
+    })
+      .then(res => {
+        this.loadHabits()
+        this.setState({ newHabit: "" })
+      })
+      .catch(err => console.log(err));
+  }
+
   handleLogoutClick() {
     auth
       .signOut()
       .then(function() {
-        // Sign-out successful.
+        alert("You were successfully signed out.  (Don't make a habit of it?)");
       })
       .catch(function(error) {
         // An error happened.
@@ -212,9 +226,9 @@ class LoginControl extends React.Component {
                   value={this.state.newHabit}
                   onChange={this.handleInputChange}
                   name="newHabit"
-                  placeholder="newHabit"
-                  required
+                  placeholder="Add New Habit"
                 />
+                <NewHabitBtn onClick={this.handleNewHabit} />
               </div>
             ) : (
               <h3>No Results to Display</h3>
