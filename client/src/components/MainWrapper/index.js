@@ -4,6 +4,7 @@ import LogoutButton from "../LogoutButton";
 import Greeting from "../Greeting";
 import CreateNewButton from "../CreateNewBtn";
 import NewHabitBtn from "../NewHabitBtn";
+import Habit2 from "../Habit2";
 import { List, ListItem, resItem } from "../List";
 import DeleteBtn from "../DeleteBtn";
 import API from "../../utils/API";
@@ -33,6 +34,8 @@ class LoginControl extends React.Component {
     this.handleNewHabit = this.handleNewHabit.bind(this);
     this.state = {
       isLoggedIn: false,
+      habit1: "",
+      habit2: "",
       newHabit: "",
       username: "",
       email: "",
@@ -42,6 +45,33 @@ class LoginControl extends React.Component {
       user: {}
     };
   }
+
+  handleChoice = choice => {
+    if (!this.state.habit1) {
+      this.setState({
+        habit1: choice
+      });
+    } else if (this.state.habit1 && !this.state.habit2) {
+      this.setState({
+        habit2: choice
+      });
+    } else {
+      return;
+    }
+    if (this.state.habit1 && this.state.habit2) {
+      API.deleteHabit({
+        habitname: choice
+      })
+        .then(res => {
+          this.loadHabits();
+          this.setState({
+            habit1: "",
+            habit2: ""
+          });
+        })
+        .catch(err => console.log(err));
+    }
+  };
 
   handleInputChange = event => {
     const { name, value } = event.target;
@@ -128,13 +158,12 @@ class LoginControl extends React.Component {
   }
 
   handleNewHabit() {
-
     API.saveHabit({
       habitname: this.state.newHabit
     })
       .then(res => {
-        this.loadHabits()
-        this.setState({ newHabit: "" })
+        this.loadHabits();
+        this.setState({ newHabit: "" });
       })
       .catch(err => console.log(err));
   }
@@ -203,7 +232,24 @@ class LoginControl extends React.Component {
               <h1>Hello {this.state.user.username}</h1>
             </div>
             <Greeting isLoggedIn={isLoggedIn} />
-            {this.state.user.habits.length ? (
+            <input
+              type="text"
+              value={this.state.habit1}
+              onChange={this.handleInputChange}
+              name="habit1"
+              placeholder="Habit 1"
+              required
+            />
+            <input
+              type="text"
+              value={this.state.habit2}
+              onChange={this.handleInputChange}
+              name="habit2"
+              placeholder="Habit 2"
+              required
+            />
+            <Habit2 onClick={this.handleCoupleHabits} />
+            {this.state.user.habits ? (
               <div>
                 <h5>Your Habits:</h5>
                 {this.state.user.habits.map(element => (
@@ -215,11 +261,25 @@ class LoginControl extends React.Component {
                 <h5>Your Habits will go here:</h5>
               </div>
             )}
+
             <h4>All Habits</h4>
             {this.state.allhabits.length ? (
               <div>
                 {this.state.allhabits.map(element => (
-                  <h6 id="">{element.habitname}</h6>
+                  <h6
+                    onClick={() => this.handleChoice(element.habitname)}
+                    id={element.habitname
+                      .replace(" ", "-")
+                      .replace(" ", "-")
+                      .replace(" ", "-")
+                      .replace(" ", "-")
+                      .replace(" ", "-")
+                      .replace(" ", "-")
+                      .replace(" ", "-")
+                      .toLowerCase()}
+                  >
+                    {element.habitname}
+                  </h6>
                 ))}
                 <input
                   type="text"
