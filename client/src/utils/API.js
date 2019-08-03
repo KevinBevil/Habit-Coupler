@@ -16,5 +16,14 @@ export default {
   // Saves a User to the database
   saveUser: function(userData) {
     return axios.post("/api/user", userData);
+  },
+  getHabits: function() {
+    return axios.get("/api/habit");
+  },
+  saveHabit: function(habit) {
+    return axios.post("/api/habit", habit);
+  },
+  deleteHabit: function(habit) {
+    return axios.delete("/api/habit/" + habit);
   }
 };

@@ -5,7 +5,7 @@ import API from "../utils/API";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem, resItem } from "../components/List";
-import { Input, TextArea, FormBtn, SearchBtn } from "../components/Form";
+
 
 class MyHabits extends Component {
   state = {
@@ -30,28 +30,28 @@ class MyHabits extends Component {
   //     .catch(err => console.log(err));
   // };
 
-  deleteUser = id => {
-    API.deleteUser(id)
-      .then(res => this.loadUser())
-      .catch(err => console.log(err));
-  };
+  // deleteUser = id => {
+  //   API.deleteUser(id)
+  //     .then(res => this.loadUser())
+  //     .catch(err => console.log(err));
+  // };
 
 
 
 
 
-  handleFormSubmit = event => {
-    event.preventDefault();
-    if (this.state.title && this.state.authors) {
-      API.saveUser({
-        title: this.state.title,
-        authors: this.state.authors,
-        description: this.state.description
-      })
-        .then(res => this.loadUser())
-        .catch(err => console.log(err));
-    }
-  };
+  // handleFormSubmit = event => {
+  //   event.preventDefault();
+  //   if (this.state.title && this.state.authors) {
+  //     API.saveUser({
+  //       title: this.state.title,
+  //       authors: this.state.authors,
+  //       description: this.state.description
+  //     })
+  //       .then(res => this.loadUser())
+  //       .catch(err => console.log(err));
+  //   }
+  // };
 
   render() {
     return (

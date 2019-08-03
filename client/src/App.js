@@ -12,12 +12,11 @@ function App() {
   return (
     <Router>
       <div>
-        <MainWrapper />
         <Switch>
           <Route exact path="/" component={Welcome} />
-          <Route exact path="/myhabits" component={MyHabits} />
           <Route component={NoMatch} />
         </Switch>
+        <MainWrapper />
       </div>
     </Router>
   );

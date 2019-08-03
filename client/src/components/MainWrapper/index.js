@@ -3,7 +3,8 @@ import LoginButton from "../LoginButton";
 import LogoutButton from "../LogoutButton";
 import Greeting from "../Greeting";
 import CreateNewButton from "../CreateNewBtn";
-import Jumbotron from "../Jumbotron";
+import { List, ListItem, resItem } from "../List";
+import DeleteBtn from "../DeleteBtn";
 import API from "../../utils/API";
 
 import * as firebase from "firebase";
@@ -30,11 +31,12 @@ class LoginControl extends React.Component {
     this.handleCreateNew = this.handleCreateNew.bind(this);
     this.state = {
       isLoggedIn: false,
+      newHabit: "",
       username: "",
       email: "",
       password: "",
       userId: "",
-      habits: [],
+      allhabits: [],
       user: {}
     };
   }
@@ -46,25 +48,33 @@ class LoginControl extends React.Component {
     });
   };
 
-  handleFormSubmit = event => {
-    event.preventDefault();
-    if (this.state.email && this.state.password) {
-      API.saveUser({
-        email: this.state.email,
-        password: this.state.password
-      })
-        .then(res => this.loadUser())
-        .catch(err => console.log(err));
-    }
-  };
+  // handleFormSubmit = event => {
+  //   event.preventDefault();
+  //   if (this.state.email && this.state.password) {
+  //     API.saveUser({
+  //       email: this.state.email,
+  //       password: this.state.password
+  //     })
+  //       .then(res => this.loadUser())
+  //       .catch(err => console.log(err));
+  //   }
+  // };
 
   loadUser = () => {
     API.getUser(this.state.email)
       .then(res => {
-        console.log(res);
         this.setState({
-          user: res.data[0],
-          habits: res.data[0].habits
+          user: res.data[0]
+        });
+      })
+      .catch(err => console.log(err));
+  };
+
+  loadHabits = () => {
+    API.getHabits()
+      .then(res => {
+        this.setState({
+          allhabits: res.data
         });
       })
       .catch(err => console.log(err));
@@ -99,6 +109,8 @@ class LoginControl extends React.Component {
       .then(() => {
         this.setState({ isLoggedIn: true });
         this.loadUser();
+        this.loadHabits();
+        this.setState({ userId: auth.currentUser.uid });
       })
       .catch(error => {
         // Handle Errors here.
@@ -127,7 +139,6 @@ class LoginControl extends React.Component {
       email: "",
       password: "",
       userId: "",
-      habits: [],
       user: {}
     });
   }
@@ -177,10 +188,39 @@ class LoginControl extends React.Component {
             <div>
               <h1>Hello {this.state.user.username}</h1>
             </div>
+            <Greeting isLoggedIn={isLoggedIn} />
+            {this.state.user.habits.length ? (
+              <div>
+                <h5>Your Habits:</h5>
+                {this.state.user.habits.map(element => (
+                  <h6>{element}</h6>
+                ))}
+              </div>
+            ) : (
+              <div>
+                <h5>Your Habits will go here:</h5>
+              </div>
+            )}
+            <h4>All Habits</h4>
+            {this.state.allhabits.length ? (
+              <div>
+                {this.state.allhabits.map(element => (
+                  <h6 id="">{element.habitname}</h6>
+                ))}
+                <input
+                  type="text"
+                  value={this.state.newHabit}
+                  onChange={this.handleInputChange}
+                  name="newHabit"
+                  placeholder="newHabit"
+                  required
+                />
+              </div>
+            ) : (
+              <h3>No Results to Display</h3>
+            )}
           </div>
         )}
-
-        <Greeting isLoggedIn={isLoggedIn} />
       </div>
     );
   }
