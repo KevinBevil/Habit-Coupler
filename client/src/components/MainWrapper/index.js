@@ -6,7 +6,6 @@ import CreateNewButton from "../CreateNewBtn";
 import Jumbotron from "../Jumbotron";
 import API from "../../utils/API";
 
-
 import * as firebase from "firebase";
 
 var firebaseConfig = {
@@ -24,14 +23,6 @@ const db = firebase.database();
 const auth = firebase.auth();
 
 class LoginControl extends React.Component {
-  // state = {
-  //   isLoggedIn: false,
-  //   email: "",
-  //   password: "",
-  //   userId: "", 
-  //   habits: []
-  // };
-
   constructor(props) {
     super(props);
     this.handleLoginClick = this.handleLoginClick.bind(this);
@@ -41,7 +32,7 @@ class LoginControl extends React.Component {
       isLoggedIn: false,
       email: "",
       password: "",
-      userId: "", 
+      userId: "",
       habits: [],
       user: {}
     };
@@ -50,50 +41,56 @@ class LoginControl extends React.Component {
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
-        [name]: value
+      [name]: value
     });
+  };
+
+  handleFormSubmit = event => {
+    event.preventDefault();
+    if (this.state.email && this.state.password) {
+      API.saveUser({
+        email: this.state.email,
+        password: this.state.password
+      })
+        .then(res => this.loadUser())
+        .catch(err => console.log(err));
+    }
   };
 
   loadUser = () => {
     API.getUser(this.state.email)
       .then(res => {
-        console.log(res)
+        console.log(res);
         this.setState({
           user: res.data[0],
           habits: res.data[0].habits
-        })
+        });
       })
       .catch(err => console.log(err));
   };
 
   handleCreateNew() {
     auth
-      .createUserWithEmailAndPassword(
-        this.state.email,
-        this.state.password
-      )
-      .then(function(data) {
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(data => {
         db.ref("users").push({});
         // userId = data.user.uid;
         alert("Account created.  Please login now.");
+        this.setState({ userId: auth.currentUser.uid });
       })
       .catch(function(err) {
         alert(err.message);
       });
-    this.setState({ userId: auth.currentUser.uid });
   }
 
   handleLoginClick() {
     auth
-      .signInWithEmailAndPassword(
-        this.state.email,
-        this.state.password
-      )
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(() => {
         this.setState({ isLoggedIn: true });
         this.loadUser();
       })
-      .catch((error) => {
+      .catch(error => {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -107,7 +104,22 @@ class LoginControl extends React.Component {
   }
 
   handleLogoutClick() {
-    this.setState({ isLoggedIn: false });
+    auth
+      .signOut()
+      .then(function() {
+        // Sign-out successful.
+      })
+      .catch(function(error) {
+        // An error happened.
+      });
+    this.setState({
+      isLoggedIn: false,
+      email: "",
+      password: "",
+      userId: "",
+      habits: [],
+      user: {}
+    });
   }
 
   componentDidMount() {
@@ -144,7 +156,9 @@ class LoginControl extends React.Component {
         ) : (
           <div>
             <LogoutButton onClick={this.handleLogoutClick} />
-            <div><h1>Hello {this.state.user.username}</h1></div>
+            <div>
+              <h1>Hello {this.state.user.username}</h1>
+            </div>
           </div>
         )}
 
