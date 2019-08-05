@@ -19,8 +19,10 @@ module.exports = {
       .catch(err => res.status(422).json(err));
   },
   update: function(req, res) {
+    console.log("Params",req.params);
+    console.log("Body",req.body);
     db.User.updateOne(
-      { _id: req.params._id },
+      { _id: req.params.id },
       { $push: { habits: req.body } })
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));

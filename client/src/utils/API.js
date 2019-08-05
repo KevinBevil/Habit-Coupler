@@ -23,8 +23,11 @@ export default {
   saveHabit: function(habit) {
     return axios.post("/api/habit", habit);
   },
-  updateHabits: function(id) {
-    return axios.put("/api/user/habits/" + id);
+  updateHabits: function(id, data) {
+    return axios.put("/api/user/habits/" + id, data)
+    .then(function(res) {
+      return res.data
+    });
   },
   deleteHabit: function(habit) {
     return axios.delete("/api/habit/" + habit);

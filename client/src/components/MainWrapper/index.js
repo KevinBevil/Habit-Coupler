@@ -45,7 +45,6 @@ class LoginControl extends React.Component {
       username: "",
       email: "",
       password: "",
-      mongoId: "",
       firebaseId: "",
       allhabits: [],
       user: {}
@@ -77,28 +76,19 @@ class LoginControl extends React.Component {
   handleCoupledHabits = event => {
     event.preventDefault();
     if (this.state.data.habit1 && this.state.data.habit2) {
-      API.updateHabits({
-        _id: this.state.mongoId,
-        data: this.state.data
-      })
-        .then(res => this.loadUser())
+      API.updateHabits(this.state.user._id, this.state.data)
+        .then(res => {
+          this.loadUser();
+          console.log("Front end res", res);
+          this.setState({
+            data: {
+              habit1: "",
+              habit2: ""
+            }
+          });
+        })
         .catch(err => console.log(err));
     }
-    // API.updateHabits({
-    //   _id: this.state.mongoId,
-    //   data: {
-    //     habit1: this.state.habit1,
-    //     habit2: this.state.habit2
-    //   }
-    // })
-    // .then(res => {
-    //   this.loadHabits();
-    //   this.setState({
-    //     habit1: "",
-    //     habit2: ""
-    //   });
-    // })
-    // .catch(err => console.log(err));
   };
 
   handleInputChange = event => {
@@ -171,7 +161,6 @@ class LoginControl extends React.Component {
         this.loadUser();
         this.loadHabits();
         this.setState({ firebaseId: auth.currentUser.uid });
-        this.setState({ mongoId: this.state.user._id });
       })
       .catch(error => {
         // Handle Errors here.
@@ -211,7 +200,6 @@ class LoginControl extends React.Component {
       email: "",
       password: "",
       firebaseId: "",
-      mongoId: "",
       username: "",
       user: {}
     });
@@ -265,6 +253,7 @@ class LoginControl extends React.Component {
             <Greeting isLoggedIn={isLoggedIn} />
             <input
               type="text"
+              readOnly
               value={this.state.data.habit1}
               onChange={this.handleInputChange}
               name="habit1"
@@ -273,6 +262,7 @@ class LoginControl extends React.Component {
             />
             <input
               type="text"
+              readOnly
               value={this.state.data.habit2}
               onChange={this.handleInputChange}
               name="habit2"
@@ -284,7 +274,9 @@ class LoginControl extends React.Component {
               <div>
                 <h5>Your Habits:</h5>
                 {this.state.user.habits.map(element => (
-                  <h6>{element}</h6>
+                  <h6>
+                    {element.habit1} with {element.habit2}
+                  </h6>
                 ))}
               </div>
             ) : (
