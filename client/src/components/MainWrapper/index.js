@@ -98,17 +98,6 @@ class LoginControl extends React.Component {
     });
   };
 
-  // handleFormSubmit = event => {
-  //   event.preventDefault();
-  //   if (this.state.email && this.state.password) {
-  //     API.saveUser({
-  //       email: this.state.email,
-  //       password: this.state.password
-  //     })
-  //       .then(res => this.loadUser())
-  //       .catch(err => console.log(err));
-  //   }
-  // };
 
   loadUser = () => {
     API.getUser(this.state.email)
@@ -216,7 +205,11 @@ class LoginControl extends React.Component {
       <div>
         {!isLoggedIn ? (
           <div>
+            <div className="row">
+            <div className="col-4"></div>
             <input
+              id="login-fields"
+              className="container col-4"
               type="text"
               value={this.state.username}
               onChange={this.handleInputChange}
@@ -224,7 +217,13 @@ class LoginControl extends React.Component {
               placeholder="username"
               required
             />
+            <div className="col-4"></div></div>
+
+            <div className="row">
+            <div className="col-4"></div>
             <input
+              id="login-fields"
+              className="container col-4"
               type="text"
               value={this.state.email}
               onChange={this.handleInputChange}
@@ -232,7 +231,13 @@ class LoginControl extends React.Component {
               placeholder="email"
               required
             />
+            <div className="col-4"></div></div>
+
+            <div className="row">
+            <div className="col-4"></div>
             <input
+              id="login-fields"
+              className="container col-4"
               type="text"
               value={this.state.password}
               onChange={this.handleInputChange}
@@ -241,6 +246,7 @@ class LoginControl extends React.Component {
               placeholder="password"
               required
             />
+            <div className="col-4"></div></div>
             <LoginButton onClick={this.handleLoginClick} />
             <CreateNewButton onClick={this.handleCreateNew} />
           </div>
