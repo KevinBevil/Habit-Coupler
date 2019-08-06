@@ -275,7 +275,7 @@ class LoginControl extends React.Component {
                 <h5>Your Habits:</h5>
                 {this.state.user.habits.map(element => (
                   <h6>
-                    {element.habit1} with {element.habit2}
+                    You've paired: {element.habit1} with: {element.habit2}
                   </h6>
                 ))}
               </div>
