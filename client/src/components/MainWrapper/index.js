@@ -80,6 +80,7 @@ class LoginControl extends React.Component {
         .then(res => {
           this.loadUser();
           console.log("Front end res", res);
+          alert("New paired habits...Done.");
           this.setState({
             data: {
               habit1: "",
@@ -281,7 +282,7 @@ class LoginControl extends React.Component {
                 <h4>Your Habits:</h4>
                 {this.state.user.habits.map(element => (
                   <h6>
-                    You've paired: {element.habit1} with: {element.habit2}
+                    You've paired: {element.habit1} with {element.habit2}
                   </h6>
                 ))}
               </div>
