@@ -278,7 +278,7 @@ class LoginControl extends React.Component {
             <Habit2 onClick={this.handleCoupledHabits} />
             {this.state.user.habits.length ? (
               <div>
-                <h5>Your Habits:</h5>
+                <h4>Your Habits:</h4>
                 {this.state.user.habits.map(element => (
                   <h6>
                     You've paired: {element.habit1} with: {element.habit2}
@@ -291,11 +291,12 @@ class LoginControl extends React.Component {
               </div>
             )}
 
-            <h4>All Habits</h4>
+            <h4>All Habits <h6>*click a habit to add to possible pair fields</h6></h4>
             {this.state.allhabits.length ? (
               <div>
                 {this.state.allhabits.map(element => (
                   <h6
+                  
                     onClick={() => this.handleChoice(element.habitname)}
                     id={element.habitname
                       .replace(" ", "-")
@@ -307,7 +308,7 @@ class LoginControl extends React.Component {
                       .replace(" ", "-")
                       .toLowerCase()}
                   >
-                    {element.habitname}
+                   <a> {element.habitname}</a>
                   </h6>
                 ))}
                 <input
