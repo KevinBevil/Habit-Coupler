@@ -14,7 +14,7 @@ a {
    padding-top: 50px!important;
 }
 
-#login-fields {
+.login-fields {
    min-width: 180px!important;
    max-width: 250px!important;
 	background: #fffdf1;

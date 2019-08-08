@@ -209,8 +209,7 @@ class LoginControl extends React.Component {
             <div className="row">
             <div className="col-4"></div>
             <input
-              id="login-fields"
-              className="container col-4"
+              className="container col-4 login-fields"
               type="text"
               value={this.state.username}
               onChange={this.handleInputChange}
@@ -223,8 +222,7 @@ class LoginControl extends React.Component {
             <div className="row">
             <div className="col-4"></div>
             <input
-              id="login-fields"
-              className="container col-4"
+              className="container col-4 login-fields"
               type="text"
               value={this.state.email}
               onChange={this.handleInputChange}
@@ -237,8 +235,7 @@ class LoginControl extends React.Component {
             <div className="row">
             <div className="col-4"></div>
             <input
-              id="login-fields"
-              className="container col-4"
+              className="container col-4 login-fields"
               type="text"
               value={this.state.password}
               onChange={this.handleInputChange}
