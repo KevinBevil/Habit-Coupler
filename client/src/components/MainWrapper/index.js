@@ -99,7 +99,6 @@ class LoginControl extends React.Component {
     });
   };
 
-
   loadUser = () => {
     API.getUser(this.state.email)
       .then(res => {
@@ -207,116 +206,157 @@ class LoginControl extends React.Component {
         {!isLoggedIn ? (
           <div>
             <div className="row">
-            <div className="col-4"></div>
-            <input
-              className="container col-4 login-fields"
-              type="text"
-              value={this.state.username}
-              onChange={this.handleInputChange}
-              name="username"
-              placeholder="username"
-              required
-            />
-            <div className="col-4"></div></div>
+              <div className="col-4" />
+              <input
+                className="container col-4 login-fields"
+                type="text"
+                value={this.state.username}
+                onChange={this.handleInputChange}
+                name="username"
+                placeholder="username"
+                required
+              />
+              <div className="col-4" />
+            </div>
 
             <div className="row">
-            <div className="col-4"></div>
-            <input
-              className="container col-4 login-fields"
-              type="text"
-              value={this.state.email}
-              onChange={this.handleInputChange}
-              name="email"
-              placeholder="email"
-              required
-            />
-            <div className="col-4"></div></div>
+              <div className="col-4" />
+              <input
+                className="container col-4 login-fields"
+                type="text"
+                value={this.state.email}
+                onChange={this.handleInputChange}
+                name="email"
+                placeholder="email"
+                required
+              />
+              <div className="col-4" />
+            </div>
 
             <div className="row">
-            <div className="col-4"></div>
-            <input
-              className="container col-4 login-fields"
-              type="text"
-              value={this.state.password}
-              onChange={this.handleInputChange}
-              type="password"
-              name="password"
-              placeholder="password"
-              required
-            />
-            <div className="col-4"></div></div>
-            <LoginButton onClick={this.handleLoginClick} />
-            <CreateNewButton onClick={this.handleCreateNew} />
+              <div className="col-4" />
+              <input
+                className="container col-4 login-fields"
+                type="text"
+                value={this.state.password}
+                onChange={this.handleInputChange}
+                type="password"
+                name="password"
+                placeholder="password"
+                required
+              />
+              <LoginButton onClick={this.handleLoginClick} />
+              <CreateNewButton onClick={this.handleCreateNew} />
+              <div className="col-4" />
+            </div>
           </div>
         ) : (
           <div>
-            <LogoutButton onClick={this.handleLogoutClick} />
-            <div>
+            <div className="row">
+              <LogoutButton id="logout" onClick={this.handleLogoutClick} />
+              <div className="col-2" />
+
               <h1>Hello {this.state.user.username}</h1>
             </div>
-            <Greeting isLoggedIn={isLoggedIn} />
-            <input
-              type="text"
-              readOnly
-              value={this.state.data.habit1}
-              onChange={this.handleInputChange}
-              name="habit1"
-              placeholder="Habit 1"
-              required
-            />
-            <input
-              type="text"
-              readOnly
-              value={this.state.data.habit2}
-              onChange={this.handleInputChange}
-              name="habit2"
-              placeholder="Habit 2"
-              required
-            />
-            <Habit2 onClick={this.handleCoupledHabits} />
+            <div className="row">
+              <div className="col-2" />
+              <Greeting isLoggedIn={isLoggedIn} />
+            </div>
+            <div className="row">
+              <div className="col-2" />
+              <input
+                className="container col-2 login-fields"
+                type="text"
+                readOnly
+                value={this.state.data.habit1}
+                onChange={this.handleInputChange}
+                name="habit1"
+                placeholder="Habit 1"
+                required
+              />
+            </div>
+            <div className="col-2" />
+            <div className="row">
+              <div className="col-2" />
+              <input
+                className="container col-2 login-fields"
+                type="text"
+                readOnly
+                value={this.state.data.habit2}
+                onChange={this.handleInputChange}
+                name="habit2"
+                placeholder="Habit 2"
+                required
+              />
+            </div>
+
+            <div className="row">
+              <div className="col-2" />
+              <Habit2 onClick={this.handleCoupledHabits} />
+            </div>
+
             {this.state.user.habits.length ? (
               <div>
-                <h4>Your Habits:</h4>
-                {this.state.user.habits.map(element => (
-                  <h6>
-                    You've paired: {element.habit1} with {element.habit2}
-                  </h6>
-                ))}
+                <div className="container">
+                  <div className="row">
+                    <div className="col-1" />
+                    <h4 className="col-11">You've paired: </h4>
+                    {this.state.user.habits.map(element => (
+                      <div className="col-5">
+                        <h6>
+                          <div className="container pairs-section">
+                            {element.habit1} with {element.habit2}
+                          </div>
+                        </h6>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             ) : (
               <div>
                 <h5>Your Habits will go here:</h5>
               </div>
             )}
-
-            <h4>All Habits <h6>*click a habit to add to possible pair fields</h6></h4>
+            <div className="container">
+              <div className="row">
+                <div className="col-1" />
+                <h4>
+                  All Habits{" "}
+                  <h6>*click a habit to add to possible pair fields</h6>
+                </h4>
+              </div>
+            </div>
             {this.state.allhabits.length ? (
               <div>
-                {this.state.allhabits.map(element => (
-                  <h6
-                  
-                    onClick={() => this.handleChoice(element.habitname)}
-                    id={element.habitname
-                      .replace(" ", "-")
-                      .replace(" ", "-")
-                      .replace(" ", "-")
-                      .replace(" ", "-")
-                      .replace(" ", "-")
-                      .replace(" ", "-")
-                      .replace(" ", "-")
-                      .toLowerCase()}
-                  >
-                   <a> {element.habitname}</a>
-                  </h6>
-                ))}
-                <input
-                  type="text"
-                  value={this.state.newHabit}
-                  onChange={this.handleInputChange}
-                  name="newHabit"
-                  placeholder="Add New Habit"
-                />
-                <NewHabitBtn onClick={this.handleNewHabit} />
+                <div className="container pairs-section">
+                  {this.state.allhabits.map(element => (
+                    <div className="row library">
+                      <h6
+                        onClick={() => this.handleChoice(element.habitname)}
+                        id={element.habitname
+                          .replace(" ", "-")
+                          .replace(" ", "-")
+                          .replace(" ", "-")
+                          .replace(" ", "-")
+                          .replace(" ", "-")
+                          .replace(" ", "-")
+                          .replace(" ", "-")
+                          .toLowerCase()}
+                      >
+                        <a> {element.habitname}</a>
+                      </h6>
+                    </div>
+                  ))}
+                  <input
+                    type="text"
+                    value={this.state.newHabit}
+                    onChange={this.handleInputChange}
+                    name="newHabit"
+                    placeholder="Add New Habit"
+                  />
+                  <NewHabitBtn onClick={this.handleNewHabit} />
+                </div>
               </div>
             ) : (
               <h3>No Results to Display</h3>
