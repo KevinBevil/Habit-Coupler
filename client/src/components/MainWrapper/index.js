@@ -256,11 +256,11 @@ class LoginControl extends React.Component {
               <LogoutButton id="logout" onClick={this.handleLogoutClick} />
               <div className="col-2" />
 
-              <h1>Hello {this.state.user.username}</h1>
+              <h2>Hello {this.state.user.username},</h2>
             </div>
             <div className="row">
               <div className="col-2" />
-              <Greeting isLoggedIn={isLoggedIn} />
+              <Greeting isLoggedIn={isLoggedIn} id="greeting"/>
             </div>
             <div className="row">
               <div className="col-2" />
@@ -306,6 +306,7 @@ class LoginControl extends React.Component {
                         <h6>
                           <div className="container pairs-section">
                             {element.habit1} with {element.habit2}
+                            <DeleteBtn onClick={this.handleDelete}/>
                           </div>
                         </h6>
                       </div>
@@ -329,7 +330,7 @@ class LoginControl extends React.Component {
             </div>
             {this.state.allhabits.length ? (
               <div>
-                <div className="container pairs-section">
+                <div className="container full-list">
                   {this.state.allhabits.map(element => (
                     <div className="row library">
                       <h6

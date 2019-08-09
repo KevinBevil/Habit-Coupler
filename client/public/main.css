@@ -9,8 +9,40 @@ body {
    top: -200px;
 }
 
+
+
+h1 {
+   font-size: 45px;
+   font-family: 'Monoton', cursive;
+
+   text-shadow: 0px 0px 0px #194a0f, 3px 3px 5px #5fa3bd;
+}
+
+h4 {
+   background: #e8e6da;
+}
+
+h2 {
+   margin-bottom: 0px;
+}
+
 h6 {
    font-size: 12px;
+}
+
+#greeting {
+   margin-top: -20px;
+   font-family: 'Passion One', cursive;
+}
+
+.full-list {
+   column-count: 3;
+}
+
+.jumbotron {
+   font-size: 22px!important;
+   margin: 0px;
+   border: 10px solid #194a0f;
 }
 
 a {
@@ -20,30 +52,33 @@ a {
 .library {
    margin-left: 10%;
 }
+
 .library-full {
    max-height: 100px;
 }
+
 #logout {
    position: fixed;
    left: 200px;
 }
+
 #pairs-section {
    max-height: 100px;
 }
 
 .jumbotron {
    height: 150px!important;
-   padding-top: 50px!important;
+   padding-top: 10px!important;
 }
 
 .login-fields {
    border-radius: 25px;
    min-width: 180px!important;
    max-width: 250px!important;
-	background: #fffdf1;
-	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
-	-moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
-   -webkit-box-shadow:  0px 0px 15px rgba(0, 0, 0, 0.22);
+   background: #fffdf1;
+   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+   -moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+   -webkit-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
    margin: 5px;
 }
 
@@ -71,7 +106,7 @@ a {
    display: inline-block;
    border: none;
    transition: all 0.4s ease 0s;
-
+   display: inline;
 }
 
 .example_a:hover {
@@ -80,6 +115,7 @@ a {
    -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
    transition: all 0.4s ease 0s;
 }
+
 .example_b {
    color: #fff !important;
    /* text-transform: uppercase; */
@@ -98,6 +134,7 @@ a {
    -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
    transition: all 0.4s ease 0s;
 }
+
 .example_c {
    color: #fff !important;
    /* text-transform: uppercase; */
@@ -116,6 +153,7 @@ a {
    -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
    transition: all 0.4s ease 0s;
 }
+
 .example_d {
    color: #fff !important;
    /* text-transform: uppercase; */
@@ -137,6 +175,7 @@ a {
    -moz-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
    transition: all 0.4s ease 0s;
 }
+
 .example_e {
    color: #fff !important;
    /* text-transform: uppercase; */
