@@ -8,5 +8,4 @@
 
 * User, you will need Firebase AUTH Keys for the app to function.  Get these at: https://firebase.google.com/docs/auth
 
-![GitHub Logo](/images/cropped1.png)
-Format: ![Screenshot](url)
+![](Final-App/client/public/images/cropped1.png)
