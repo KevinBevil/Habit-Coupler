@@ -277,10 +277,10 @@ class LoginControl extends React.Component {
               <div>
                 <div className="container">
                   <div className="all-pairs">
-                    <div  />
-                    <h4 >You've paired: </h4>
+                    <div />
+                    <h4>You've paired: </h4>
                     {this.state.user.habits.map(element => (
-                      <div >
+                      <div>
                         <h6>
                           <div className="container pairs-section">
                             <b>{element.habit1}</b> with <b>{element.habit2}</b>

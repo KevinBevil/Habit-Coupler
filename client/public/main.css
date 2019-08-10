@@ -38,8 +38,13 @@ h6 {
    font-size: 13px;
 }
 
+
+h6 {
+   background-color: #E8E6DA;
+}
 .all-pairs {
    column-count: 2;
+   margin: 20px;
 }
 
 #greeting {
