@@ -34,6 +34,7 @@ class LoginControl extends React.Component {
     this.handleCoupledHabits = this.handleCoupledHabits.bind(this);
     this.handleNewHabit = this.handleNewHabit.bind(this);
     this.handleChoice = this.handleChoice.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.state = {
       firstBox: false,
       isLoggedIn: false,
@@ -72,6 +73,15 @@ class LoginControl extends React.Component {
       return;
     }
   };
+  handleDelete = event => {
+    event.preventDefault();
+    API.deletePair(this.state.user._id)
+      .then(res => {
+        this.loadUser();
+        alert("Paired habits deleted!");
+      })
+      .catch(err => console.log(err));
+  };
 
   handleCoupledHabits = event => {
     event.preventDefault();
@@ -79,8 +89,8 @@ class LoginControl extends React.Component {
       API.updateHabits(this.state.user._id, this.state.data)
         .then(res => {
           this.loadUser();
-          console.log("Front end res", res);
-          alert("New paired habits...Done.");
+
+          alert("You've stored new paired habits!");
           this.setState({
             data: {
               habit1: "",
@@ -260,7 +270,36 @@ class LoginControl extends React.Component {
             </div>
             <div className="row">
               <div className="col-2" />
-              <Greeting isLoggedIn={isLoggedIn} id="greeting"/>
+              <Greeting isLoggedIn={isLoggedIn} id="greeting" />
+            </div>
+
+            {this.state.user.habits.length ? (
+              <div>
+                <div className="container">
+                  <div className="all-pairs">
+                    <div  />
+                    <h4 >You've paired: </h4>
+                    {this.state.user.habits.map(element => (
+                      <div >
+                        <h6>
+                          <div className="container pairs-section">
+                            <b>{element.habit1}</b> with <b>{element.habit2}</b>
+                            <DeleteBtn />
+                          </div>
+                        </h6>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <h5>Your Habits will go here:</h5>
+              </div>
+            )}
+            <div className="row">
+              <div className="col-2" />
+              <Habit2 onClick={this.handleCoupledHabits} />
             </div>
             <div className="row">
               <div className="col-2" />
@@ -289,36 +328,7 @@ class LoginControl extends React.Component {
                 required
               />
             </div>
-
-            <div className="row">
-              <div className="col-2" />
-              <Habit2 onClick={this.handleCoupledHabits} />
-            </div>
-
-            {this.state.user.habits.length ? (
-              <div>
-                <div className="container">
-                  <div className="row">
-                    <div className="col-1" />
-                    <h4 className="col-11">You've paired: </h4>
-                    {this.state.user.habits.map(element => (
-                      <div className="col-5">
-                        <h6>
-                          <div className="container pairs-section">
-                            {element.habit1} with {element.habit2}
-                            <DeleteBtn onClick={this.handleDelete}/>
-                          </div>
-                        </h6>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div>
-                <h5>Your Habits will go here:</h5>
-              </div>
-            )}
+            <div className="col-6" />
             <div className="container">
               <div className="row">
                 <div className="col-1" />
