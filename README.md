@@ -8,4 +8,4 @@
 
 * User, you will need Firebase AUTH Keys for the app to function.  Get these at: https://firebase.google.com/docs/auth
 
-![_](Final-App/client/public/images/cropped1.png)
+![_](client/public/images/cropped1.png)
